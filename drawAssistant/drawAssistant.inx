@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<inkscape-extension xmlns="http://www.inkscape.org/namespace/inkscape/extension">
+
+  <name>Place Symbol</name>
+  <id>ie.analoghub.drawassistant</id>
+
+  <!-- Library selector -->
+  <param name="library" type="optiongroup" appearance="combo" gui-text="Symbol library:">
+    <option value="AH-analog">Analog (resistors, caps, opamps, MOSFETs …)</option>
+    <option value="AH-behavioural">Behavioural (ADC, DAC, filters, PLL …)</option>
+    <option value="AH-logic-gates">Logic Gates (AND, OR, flip-flops …)</option>
+  </param>
+
+  <!-- Symbol ID input -->
+  <param name="symbol_id" type="string" gui-text="Symbol ID (case-sensitive):"></param>
+
+  <separator/>
+
+  <!-- Replace mode -->
+  <param name="replace" type="boolean"
+         gui-text="Replace selected shape  (object label must match Symbol ID)">false</param>
+
+  <effect>
+    <object-type>all</object-type>
+    <effects-menu>
+      <submenu name="Draw Assistant"/>
+    </effects-menu>
+  </effect>
+
+  <script>
+    <command location="inx" interpreter="python">drawAssistant.py</command>
+  </script>
+
+</inkscape-extension>
