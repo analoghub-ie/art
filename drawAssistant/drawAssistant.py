@@ -20,9 +20,15 @@ in the 'symbols/' sub-folder next to this script.
 import os
 import re
 import copy
+import ssl
 import urllib.request
 import inkex
 from lxml import etree
+
+# Allow downloads from GitHub without strict SSL verification (Windows CA bundle issue)
+_SSL_CTX = ssl.create_default_context()
+_SSL_CTX.check_hostname = False
+_SSL_CTX.verify_mode = ssl.CERT_NONE
 
 # Namespaces
 SVG_NS      = 'http://www.w3.org/2000/svg'
@@ -105,7 +111,9 @@ class DrawAssistant(inkex.EffectExtension):
             try:
                 os.makedirs(sym_dir, exist_ok=True)
                 inkex.utils.debug("Downloading %s.svg ..." % lib_name)
-                urllib.request.urlretrieve(url, lib_path)
+                req = urllib.request.urlopen(url, context=_SSL_CTX)
+                with open(lib_path, 'wb') as f:
+                    f.write(req.read())
             except Exception as exc:
                 inkex.errormsg(
                     "Could not download library '%s':\n%s\n\n"
