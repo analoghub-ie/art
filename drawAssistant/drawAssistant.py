@@ -110,8 +110,7 @@ class DrawAssistant(inkex.EffectExtension):
                 return None
             try:
                 os.makedirs(sym_dir, exist_ok=True)
-                inkex.utils.debug("Downloading %s.svg ..." % lib_name)
-                req = urllib.request.urlopen(url, context=_SSL_CTX)
+                req = urllib.request.urlopen(url, context=_SSL_CTX, timeout=15)
                 with open(lib_path, 'wb') as f:
                     f.write(req.read())
             except Exception as exc:
